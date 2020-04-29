@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+
+    <title>Registration</title>
+</head>
+
+<body>
+<th:block th:include="fragments/header :: header"/>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+
+            <div th:if="${param.success}">
+                <div class="alert alert-info">You've successfully registered to our awesome app!</div>
+            </div>
+
+            <h1>Registration</h1>
+            <form method="post" th:action="@{/registration}" th:object="${user}">
+
+                <div class="form-group">
+                    <label class="control-label" for="firstName">First name</label>
+                    <input class="form-control"
+                           id="firstName"
+                           th:field="*{firstName}"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="lastName">Last name</label>
+                    <input class="form-control"
+                           id="lastName"
+                           th:field="*{lastName}"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="email">E-mail</label>
+                    <input class="form-control"
+                           id="email"
+                           th:field="*{email}"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="password">Password</label>
+                    <input class="form-control"
+                           id="password"
+                           th:field="*{password}"
+                           type="password"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="confirmPassword">Confirm password</label>
+                    <input class="form-control"
+                           id="confirmPassword"
+                           th:field="*{confirmPassword}"
+                           type="password"/>
+
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success" type="submit">Register</button>
+                    <span>Already registered? <a href="/" th:href="@{/login}">Login here</a></span>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
