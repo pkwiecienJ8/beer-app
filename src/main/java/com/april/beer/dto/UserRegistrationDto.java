@@ -1,5 +1,7 @@
 package com.april.beer.dto;
 
+import com.april.beer.dto.validation.ValidPassword;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
@@ -12,9 +14,11 @@ public class UserRegistrationDto {
     private String lastName;
 
     @NotEmpty
+    @ValidPassword
     private String password;
 
     @NotEmpty
+    @ValidPassword
     private String confirmPassword;
 
     @Email

@@ -19,13 +19,8 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
-    @ModelAttribute("user")
-    public UserRegistrationDto userRegistrationDto() {
-        return new UserRegistrationDto();
-    }
-
     @GetMapping
-    public String showRegistrationForm() {
+    public String showRegistrationForm(@ModelAttribute("user") UserRegistrationDto userDto) {
         return "registration";
     }
 

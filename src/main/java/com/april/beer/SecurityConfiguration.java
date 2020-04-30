@@ -16,16 +16,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+
         http.authorizeRequests()
                 .antMatchers(
-//                        "/beers**",
                         "/registration**",
                         "/js/**",
-                        "/css/**",
-                        "/img/**",
-                        "/webjars/**").permitAll()
+                        "/css/**"
+                ).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
