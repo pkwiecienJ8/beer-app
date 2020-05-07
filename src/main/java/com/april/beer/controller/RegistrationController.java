@@ -1,6 +1,6 @@
 package com.april.beer.controller;
 
-import com.april.beer.dto.UserRegistrationDto;
+import com.april.beer.dto.form_object.UserRegistrationFormObject;
 import com.april.beer.entity.User;
 import com.april.beer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +20,12 @@ public class RegistrationController {
     private UserService userService;
 
     @GetMapping
-    public String showRegistrationForm(@ModelAttribute("user") UserRegistrationDto userDto) {
+    public String showRegistrationForm(@ModelAttribute("user") UserRegistrationFormObject userDto) {
         return "registration";
     }
 
     @PostMapping
-    public String registerUserAccount(@ModelAttribute("user") @Valid UserRegistrationDto userDto,
+    public String registerUserAccount(@ModelAttribute("user") @Valid UserRegistrationFormObject userDto,
                                       BindingResult result) {
 
         User existing = userService.findByEmail(userDto.getEmail());

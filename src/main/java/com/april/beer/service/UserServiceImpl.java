@@ -1,6 +1,6 @@
 package com.april.beer.service;
 
-import com.april.beer.dto.UserRegistrationDto;
+import com.april.beer.dto.form_object.UserRegistrationFormObject;
 import com.april.beer.entity.Role;
 import com.april.beer.entity.User;
 import com.april.beer.repository.UserRepository;
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email);
     }
 
-    public User save(UserRegistrationDto registration) {
+    public User save(UserRegistrationFormObject registration) {
         User user = new User();
         user.setFirstName(registration.getFirstName());
         user.setLastName(registration.getLastName());

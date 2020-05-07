@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Details</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<th:block th:include="fragments/header :: header"/>
+
+<div class="container" th:if="${beer}">
+    <br/>
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col-md-4" style="margin: auto; display: block;">
+                <img class="card-img img-responsive mx-auto d-block"
+                     style="  display: block; max-width:200px; max-height:250px; width: auto; height: auto;"
+                     th:src="${beer.getImageUrl()}"/>
+            </div>
+            <div class="col-md-8" style="margin: auto; display: block;">
+                <div class="card-block px-2">
+                    <h4 th:text="${beer.getName()}">Name</h4>
+                    <p th:text="${beer.getDescription()}">Description</p>
+                    <p th:text="${beer.getFirstBrewed()}">First Brewed</p>
+                    <p th:text="${beer.getAbv()}">Abv</p>
+                    <p th:text="${beer.getIbu()}">Ibu</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  user comment form -->
+    <div sec:authorize="isAuthenticated()" th:block>
+        <div class="row" id="post-review-box">
+            <div class="col-md-12">
+                <form method="post" th:action="@{/review}" th:object="${reviewFormObject}">
+                    <input id="beer-id" th:field="*{beerName}" th:value="${beer.getName()}" type="hidden">
+                    <textarea class="form-control animated" cols="50" id="new-review" name="comment"
+                              placeholder="Enter your review here..." rows="5" th:field="*{reviewText}"></textarea>
+
+                    <div class="text-right">
+                        <button class="btn btn-success btn-lg" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <span sec:authorize="isAnonymous()"> Please <a th:href="@{/login}">Login</a> to post review</span>
+
+    <!--Beer comments-->
+    <div class="container">
+        <h2 class="text-center">Comments</h2>
+        <div th:if="${beer.getReviews()}">
+            <div class="card" th:each="review : ${beer.getReviews()}">
+                <div class="card-body">
+                    <div class="row">
+                        <div>
+                            <!--                            Add rating system-->
+                            <p>
+                                <a class="float-left" href="#">
+                                    <strong th:text="${review.getCreated()}">Created Date</strong>
+                                    by
+                                    <strong th:text="${review.getAuthor().getFirstName()}">Name</strong>
+                                </a>
+                            </p>
+                            <div class="clearfix"></div>
+                            <p th:text="${review.getText()}">Comment Content</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p th:unless="${beer.getReviews()}">This product does not have any comments</p>
+    </div>
+</div>
+
+<div th:unless="${beer}">
+    <p>Nothing here</p>
+</div>
+</body>
+</html>

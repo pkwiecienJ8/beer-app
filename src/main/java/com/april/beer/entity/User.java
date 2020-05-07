@@ -3,6 +3,7 @@ package com.april.beer.entity;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -24,18 +25,15 @@ public class User {
                     name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
-    private Collection< Role > roles;
+    private Collection<Role> roles;
 
-    public User() {}
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Review> reviews;
 
-    public User(String firstName, String lastName, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
+    public User() {
     }
 
-    public User(String firstName, String lastName, String email, String password, Collection < Role > roles) {
+    public User(String firstName, String lastName, String email, String password, Collection<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -83,12 +81,20 @@ public class User {
         this.password = password;
     }
 
-    public Collection < Role > getRoles() {
+    public Collection<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection < Role > roles) {
+    public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override

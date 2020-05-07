@@ -1,9 +1,7 @@
 package com.april.beer.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table
@@ -11,23 +9,30 @@ public class Beer {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     private String name;
-    private String producer;
+    @Column(length = 1027)
+    private String description;
+    private String imageUrl;
+    private String ibu;
+    private String firstBrewed;
+    private String abv;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Collection<Review> reviews;
 
-    public Beer(String name, String producer) {
+    public Beer(String name, String description) {
         this.name = name;
-        this.producer = producer;
+        this.description = description;
     }
 
     public Beer() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -39,12 +44,53 @@ public class Beer {
         this.name = name;
     }
 
-    public String getProducer() {
-        return producer;
+    public String getDescription() {
+        return description;
     }
 
-    public void setProducer(String producer) {
-        this.producer = producer;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getIbu() {
+        return ibu;
+    }
+
+    public void setIbu(String ibu) {
+        this.ibu = ibu;
+    }
+
+    public String getFirstBrewed() {
+        return firstBrewed;
+    }
+
+    public void setFirstBrewed(String firstBrewed) {
+        this.firstBrewed = firstBrewed;
+    }
+
+    public String getAbv() {
+        return abv;
+    }
+
+    public void setAbv(String abv) {
+        this.abv = abv;
+    }
+
+    public Collection<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Collection<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override
@@ -52,7 +98,12 @@ public class Beer {
         return "Beer{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", producer='" + producer + '\'' +
+                ", description='" + description + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", ibu='" + ibu + '\'' +
+                ", firstBrewed='" + firstBrewed + '\'' +
+                ", abv='" + abv + '\'' +
                 '}';
     }
+
 }

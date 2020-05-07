@@ -1,11 +1,11 @@
-package com.april.beer.dto;
+package com.april.beer.dto.form_object;
 
 import com.april.beer.dto.validation.ValidPassword;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-public class UserRegistrationDto {
+public class UserRegistrationFormObject {
 
     @NotEmpty
     private String firstName;

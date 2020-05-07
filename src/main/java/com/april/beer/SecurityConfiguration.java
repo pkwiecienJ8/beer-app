@@ -16,14 +16,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(
+                        "/",
                         "/registration**",
+                        "/search**",
+                        "/beer**",
                         "/js/**",
-                        "/css/**"
+                        "/css/**",
+                        "/h2-console/**"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -37,6 +40,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login?logout")
                 .permitAll();
+
+//        http.authorizeRequests()
+//                .antMatchers("/").permitAll()
+//                .antMatchers("/h2-console/**").permitAll();
+
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
     }
 
     @Bean

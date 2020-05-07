@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Beer-List</title>
-    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" rel="stylesheet">
 </head>
 <body>
@@ -18,7 +17,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Producer</th>
+                    <th scope="col">Description</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
@@ -29,7 +28,7 @@
                 <tr th:each="beer : ${beers}">
                     <th scope="row"><span th:text="${beer.getId()}">Id</span></th>
                     <th><span th:text="${beer.getName()}">Name</span></th>
-                    <th><span th:text="${beer.getProducer()}">Producer</span></th>
+                    <th><span th:text="${beer.getDescription()}">Description</span></th>
                     <th>
                         <button type="button" class="btn btn-primary"><i class="far fa-eye"></i></button>
                         <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
