@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>Details</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js" type="text/javascript"></script>
+</head>
+
 </head>
 <body>
 <th:block th:include="fragments/header :: header"/>
@@ -33,44 +37,50 @@
     <div sec:authorize="isAuthenticated()" th:block>
         <div class="row" id="post-review-box">
             <div class="col-md-12">
-                <form method="post" th:action="@{/review}" th:object="${reviewFormObject}">
-                    <input id="beer-id" th:field="*{beerName}" th:value="${beer.getName()}" type="hidden">
-                    <textarea class="form-control animated" cols="50" id="new-review" name="comment"
-                              placeholder="Enter your review here..." rows="5" th:field="*{reviewText}"></textarea>
 
-                    <div class="text-right">
-                        <button class="btn btn-success btn-lg" type="submit">Save</button>
-                    </div>
-                </form>
+                <input id="beer-name" th:value="${beer.getName()}" type="hidden">
+                <textarea class="form-control animated" cols="50" id="beer-comment" name="comment"
+                          placeholder="Enter your review here..." rows="5"></textarea>
+
+                <div class="text-right">
+                    <button class="btn btn-success btn-lg" id="add-comment" type="submit">Save</button>
+                </div>
+
             </div>
         </div>
     </div>
     <span sec:authorize="isAnonymous()"> Please <a th:href="@{/login}">Login</a> to post review</span>
 
     <!--Beer comments-->
-    <div class="container">
+    <div class="container" id="comments">
         <h2 class="text-center">Comments</h2>
-        <div th:if="${beer.getReviews()}">
-            <div class="card" th:each="review : ${beer.getReviews()}">
-                <div class="card-body">
-                    <div class="row">
-                        <div>
-                            <!--                            Add rating system-->
-                            <p>
-                                <a class="float-left" href="#">
-                                    <strong th:text="${review.getCreated()}">Created Date</strong>
-                                    by
-                                    <strong th:text="${review.getAuthor().getFirstName()}">Name</strong>
-                                </a>
-                            </p>
-                            <div class="clearfix"></div>
-                            <p th:text="${review.getText()}">Comment Content</p>
+        <div id="review-section">
+            <div th:if="${beer.getReviews()}">
+                <div class="card" th:each="review : ${beer.getReviews()}">
+                    <div class="card-body">
+                        <div class="row">
+                            <div>
+                                <!--                            Add rating system-->
+                                <p>
+                                    <a class="float-left" href="#">
+                                        <strong th:text="${review.getCreated()}">Created Date</strong>
+                                        by
+                                        <strong th:text="${review.getAuthor().getFirstName()}">Name</strong>
+                                    </a>
+                                </p>
+                                <div class="clearfix"></div>
+                                <p th:text="${review.getText()}">Comment Content</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <p id="no-comment-section" th:unless="${beer.getReviews()}">This product does not have any comments</p>
+            <!--            <div id="comments">-->
+
+            <!--            </div>-->
         </div>
-        <p th:unless="${beer.getReviews()}">This product does not have any comments</p>
+
     </div>
 </div>
 
@@ -78,4 +88,57 @@
     <p>Nothing here</p>
 </div>
 </body>
+<script type="text/javascript">
+    const $beerName = $('#beer-name');
+    const $beerComment = $('#beer-comment');
+    const $reviewSection = $('#review-section');
+    const $noCommentSection = $('#no-comment-section')
+
+
+    $('#add-comment').on('click', function () {
+        const beerComment = {
+            beerName: $beerName.val(),
+            comment: $beerComment.val()
+        };
+
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: 'POST',
+            url: '/review',
+            data: JSON.stringify(beerComment),
+            success: function (newComment) {
+                const newCommentHTML = `
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                 <div>
+                                    <p>
+                                        <a class="float-left" href="#">
+                                            <strong>${newComment.created}</strong>
+                                            by
+                                            <strong>${newComment.author.email}</strong>
+                                        </a>
+                                    </p>
+                                    <div class="clearfix"></div>
+                                    <p>${newComment.text}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+
+                if($noCommentSection.length){
+                    $noCommentSection.remove();
+                }
+
+                $reviewSection.prepend(newCommentHTML)
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+            }
+        });
+    });
+</script>
 </html>

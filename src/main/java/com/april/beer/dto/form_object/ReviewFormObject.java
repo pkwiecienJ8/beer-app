@@ -5,7 +5,7 @@ import javax.validation.constraints.NotEmpty;
 public class ReviewFormObject {
 
     @NotEmpty
-    private String reviewText;
+    private String comment;
 
     private String beerName;
 
@@ -13,17 +13,21 @@ public class ReviewFormObject {
     public ReviewFormObject() {
     }
 
-    public ReviewFormObject(String message, String beerName) {
-        this.reviewText = message;
+    public ReviewFormObject(String beerName) {
         this.beerName = beerName;
     }
 
-    public String getReviewText() {
-        return reviewText;
+    public ReviewFormObject(@NotEmpty String comment, String beerName) {
+        this.comment = comment;
+        this.beerName = beerName;
     }
 
-    public void setReviewText(String reviewText) {
-        this.reviewText = reviewText;
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public String getBeerName() {

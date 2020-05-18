@@ -52,7 +52,6 @@ public class Beer {
         this.description = description;
     }
 
-
     public String getImageUrl() {
         return imageUrl;
     }

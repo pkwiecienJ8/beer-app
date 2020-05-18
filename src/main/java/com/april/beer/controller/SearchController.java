@@ -1,7 +1,6 @@
 package com.april.beer.controller;
 
 import com.april.beer.dto.form_object.BeerFormObject;
-import com.april.beer.dto.form_object.ReviewFormObject;
 import com.april.beer.entity.Beer;
 import com.april.beer.service.BeerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +18,8 @@ public class SearchController {
     @Autowired
     BeerService beerService;
 
-    /*
-    Is there option to avoid having two ModelAttrubites? I do have two form
-     */
     @GetMapping("/search")
     public ModelAndView searchBeer(@ModelAttribute("beerFormObject") @Valid BeerFormObject beerFormObject,
-                                   @ModelAttribute("reviewFormObject") ReviewFormObject reviewFormObject,
                                    BindingResult result) {
 
         if (result.hasErrors()) {
